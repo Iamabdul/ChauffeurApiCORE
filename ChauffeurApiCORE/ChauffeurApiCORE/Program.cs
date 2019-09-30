@@ -1,12 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ChauffeurApiCORE
 {
 	class Program
 	{
+
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
+			WebHost.CreateDefaultBuilder(args)
+				.UseStartup<Startup>()
+				.UseKestrel()
+				.ConfigureServices((servceHost, services) => { })
+				.Build();
 		}
 	}
 }
