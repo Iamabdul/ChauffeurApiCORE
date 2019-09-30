@@ -11,7 +11,6 @@ namespace ChauffeurApiCORE
 			WebHost.CreateDefaultBuilder(args)
 				.UseStartup<Startup>()
 				.UseKestrel()
-				.ConfigureServices((servceHost, services) => { })
 				.Build();
 		}
 	}
