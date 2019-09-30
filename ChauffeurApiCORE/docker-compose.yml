@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  chauffeurapicore:
+    image: ${DOCKER_REGISTRY-}chauffeurapicore
+    build:
+      context: .
+      dockerfile: ChauffeurApiCORE/Dockerfile
