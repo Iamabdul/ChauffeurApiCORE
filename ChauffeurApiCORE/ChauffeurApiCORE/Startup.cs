@@ -16,7 +16,7 @@ namespace ChauffeurApiCORE
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			
+			services.AddMvcCore();
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -30,10 +30,9 @@ namespace ChauffeurApiCORE
 				app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
-
-			app.UseStaticFiles()
-			   .Build();
+			app
+				.UseMvc()
+				.UseStaticFiles();
 		}
 	}
 }
