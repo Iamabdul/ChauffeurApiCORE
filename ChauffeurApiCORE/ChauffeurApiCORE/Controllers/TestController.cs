@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using ChauffeurApiCORE.Commands;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ChauffeurApiCORE.Controllers
 {
@@ -6,10 +8,18 @@ namespace ChauffeurApiCORE.Controllers
 	[ApiController]
 	public class TestController : ControllerBase
 	{
-		[HttpGet]
-		public ActionResult Hello()
+		readonly ITestCommand testCommand;
+
+		public TestController(ITestCommand testCommand)
 		{
-			return Ok();
+			this.testCommand = testCommand;
+		}
+
+		[HttpGet]
+		public async Task<ActionResult> Hello()
+		{
+			var name = await testCommand.Execute();
+			return Ok(name);
 		}
 	}
 }

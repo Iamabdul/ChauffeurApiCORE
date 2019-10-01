@@ -1,4 +1,5 @@
-﻿using ChauffeurApiCORE.Extensions;
+﻿using ChauffeurApiCORE.Commands;
+using ChauffeurApiCORE.Extensions;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +34,9 @@ namespace ChauffeurApiCORE
 			{
 				options.ApiKey = "apikey";
 			});
+
+			RegisterCommands(services);
+
 			services
 				.AddMvcCore(options =>
 				{
@@ -68,7 +72,7 @@ namespace ChauffeurApiCORE
 
 		void RegisterCommands(IServiceCollection services)
 		{
-
+			services.AddSingleton<ITestCommand, TestCommand>();
 		}
 
 		void RegisterQueries(IServiceCollection services)
