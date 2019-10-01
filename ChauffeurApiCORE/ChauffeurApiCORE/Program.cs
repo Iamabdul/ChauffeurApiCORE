@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ChauffeurApiCORE
 {
@@ -13,8 +13,13 @@ namespace ChauffeurApiCORE
 				.UseStartup<Startup>()
 				.UseKestrel(options =>
 				{
-					options.ListenAnyIP(80);
+					options.ListenAnyIP(99);
 					options.Configure();
+				})
+				.ConfigureLogging((hostingContext, logging) =>
+				{
+					logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+					logging.AddConsole();
 				})
 				.Build();
 
