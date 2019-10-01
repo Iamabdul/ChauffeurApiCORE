@@ -2,13 +2,14 @@
 
 namespace ChauffeurApiCORE.Controllers
 {
-	[Route("Api/Test")]
-	public class TestController
+	[Route("api/test")]
+	[ApiController]
+	public class TestController : ControllerBase
 	{
 		[HttpGet]
-		public ActionResult<string> Hello()
+		public ActionResult Hello()
 		{
-			return "Hello";
+			return Ok();
 		}
 	}
 }
