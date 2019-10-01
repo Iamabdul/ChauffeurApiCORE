@@ -65,5 +65,25 @@ namespace ChauffeurApiCORE
 			.UseStaticFiles()
 			.Build();
 		}
+
+		void RegisterCommands(IServiceCollection services)
+		{
+
+		}
+
+		void RegisterQueries(IServiceCollection services)
+		{
+
+		}
+
+		void RegisterFactories(IServiceCollection services)
+		{
+
+		}
+
+		void RegisterServices(IServiceCollection services)
+		{
+
+		}
 	}	
 }
