@@ -10,7 +10,7 @@ namespace ChauffeurApiCORE.Commands
     {
 		IChaufferDbContext context;
 
-        public CreateStopCommand()
+        public CreateStopCommand(IChaufferDbContext context)
         {
             this.context = context;
         }

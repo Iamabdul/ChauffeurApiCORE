@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -46,9 +44,9 @@ namespace ChauffeurApiCORE.Models
 			}
 		}
 
-		public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+		public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
-			return base.SaveChangesAsync(cancellationToken);
+			return await base.SaveChangesAsync(cancellationToken);
 		}
 	}
 
