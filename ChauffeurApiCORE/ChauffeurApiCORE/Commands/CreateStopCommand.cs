@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChauffeurApiCORE.Exceptions;
 using ChauffeurApiCORE.Models;
+using ChauffeurApiCORE.Helpers;
 
 namespace ChauffeurApiCORE.Commands
 {

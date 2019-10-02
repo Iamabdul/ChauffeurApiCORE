@@ -1,11 +1,14 @@
 ﻿using ChauffeurApiCORE.Commands;
+using ChauffeurApiCORE.Configurations;
 using ChauffeurApiCORE.Extensions;
+using ChauffeurApiCORE.Models;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OData.UriParser;
@@ -35,6 +38,7 @@ namespace ChauffeurApiCORE
 				options.ApiKey = "apikey";
 			});
 
+			RegisterServices(services);
 			RegisterCommands(services);
 
 			services
@@ -73,6 +77,13 @@ namespace ChauffeurApiCORE
 		void RegisterCommands(IServiceCollection services)
 		{
 			services.AddSingleton<ITestCommand, TestCommand>();
+			services.AddSingleton<ICreateCustomerCommand, CreateCustomerCommand>();
+			services.AddSingleton<ICreateBookingCommand, CreateBookingCommand>();
+			services.AddSingleton<IEditBookingCommand, EditBookingCommand>();
+			services.AddSingleton<ICancelBookingCommand, CancelBookingCommand>();
+			services.AddSingleton<ICreateDriverCommand, CreateDriverCommand>();
+			services.AddSingleton<IEditDriverCommand, EditDriverCommand>();
+			services.AddSingleton<ICreateStopCommand, CreateStopCommand>();
 		}
 
 		void RegisterQueries(IServiceCollection services)
@@ -87,7 +98,15 @@ namespace ChauffeurApiCORE
 
 		void RegisterServices(IServiceCollection services)
 		{
+			var dbConnectionStr = ConfigurationManager.AppSettings["DefaultConnection"];
+			services.AddDbContext<ApplicationDbContext>(options =>
+			{
+				options.UseSqlServer(dbConnectionStr);
+			})
+			.AddDefaultIdentity<ApplicationUser>()
+			.AddEntityFrameworkStores<ApplicationDbContext>();
 
+			services.AddScoped<IChaufferDbContext>(x => x.GetRequiredService<ApplicationDbContext>());
 		}
 	}	
 }
