@@ -1,8 +1,10 @@
-﻿namespace ChauffeurApiCORE.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ChauffeurApiCORE.Models
 {
     public class PhoneNumber
     {
-        public string Telephone { get; set; }
+		[Key]
         public string MobilePhone { get; set; }
         public string OfficePhone { get; set; }
     }
