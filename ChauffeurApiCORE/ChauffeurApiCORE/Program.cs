@@ -1,17 +1,29 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ChauffeurApiCORE
 {
 	class Program
 	{
-
-		static void Main(string[] args)
+		static IWebHost webHost;
+		static async Task Main(string[] args)
 		{
-			WebHost.CreateDefaultBuilder(args)
+			webHost =  new WebHostBuilder()
 				.UseStartup<Startup>()
-				.UseKestrel()
+				.UseKestrel(options =>
+				{
+					options.ListenAnyIP(99);
+					options.Configure();
+				})
+				.ConfigureLogging((hostingContext, logging) =>
+				{
+					logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+					logging.AddConsole();
+				})
 				.Build();
+
+			await webHost.RunAsync();
 		}
 	}
 }
