@@ -6,6 +6,7 @@ using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -84,6 +85,7 @@ namespace ChauffeurApiCORE
 			services.AddSingleton<ICreateDriverCommand, CreateDriverCommand>();
 			services.AddSingleton<IEditDriverCommand, EditDriverCommand>();
 			services.AddSingleton<ICreateStopCommand, CreateStopCommand>();
+			services.AddSingleton<ICreateAccountCommand, CreateAccountCommand>();
 		}
 
 		void RegisterQueries(IServiceCollection services)
@@ -104,7 +106,9 @@ namespace ChauffeurApiCORE
 				options.UseSqlServer(dbConnectionStr);
 			})
 			.AddDefaultIdentity<ApplicationUser>()
-			.AddEntityFrameworkStores<ApplicationDbContext>();
+			.AddEntityFrameworkStores<ApplicationDbContext>()
+			.AddUserManager<UserManager<ApplicationUser>>()
+			.AddDefaultTokenProviders();
 
 			services.AddScoped<IChaufferDbContext>(x => x.GetRequiredService<ApplicationDbContext>());
 		}
