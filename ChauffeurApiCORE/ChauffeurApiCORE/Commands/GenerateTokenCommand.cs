@@ -27,8 +27,8 @@ namespace ChauffeurApiCORE.Commands
 			var expires = DateTime.Now.AddDays(Convert.ToDouble(expiryInDays));
 
 			var token = new JwtSecurityToken(
-								null,
-								null,
+								ConfigurationManager.AppSettings["JwtIssuer"],
+								ConfigurationManager.AppSettings["JwtIssuer"],
 								claims,
 								expires: expires,
 								signingCredentials: creds);
