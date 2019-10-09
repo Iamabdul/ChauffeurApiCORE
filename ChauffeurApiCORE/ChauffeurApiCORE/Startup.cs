@@ -1,8 +1,10 @@
-﻿using ChauffeurApiCORE.Commands;
+﻿using System;
+using System.Text;
+using ChauffeurApiCORE.Commands;
 using ChauffeurApiCORE.Configurations;
-using ChauffeurApiCORE.Extensions;
 using ChauffeurApiCORE.Models;
 using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.UriParser;
 
 namespace ChauffeurApiCORE
@@ -30,14 +33,18 @@ namespace ChauffeurApiCORE
 			services.AddRouting();
 			services.AddOData();
 			services.AddODataQueryFilter();
-			services.AddAuthentication(options =>
-			{
-				options.DefaultAuthenticateScheme = "apikey";
-				options.DefaultChallengeScheme = "apikey";
-			}).AddApiKeyAuth(options =>
-			{
-				options.ApiKey = "apikey";
-			});
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+					.AddJwtBearer(cfg =>
+					{
+						cfg.RequireHttpsMetadata = false;
+						cfg.SaveToken = true;
+						cfg.TokenValidationParameters = new TokenValidationParameters
+						{
+							IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["JwtKey"])),
+							ClockSkew = TimeSpan.Zero
+						};
+					});
 
 			RegisterServices(services);
 			RegisterCommands(services);
@@ -85,7 +92,7 @@ namespace ChauffeurApiCORE
 			services.AddSingleton<ICreateDriverCommand, CreateDriverCommand>();
 			services.AddSingleton<IEditDriverCommand, EditDriverCommand>();
 			services.AddSingleton<ICreateStopCommand, CreateStopCommand>();
-			services.AddSingleton<ICreateAccountCommand, CreateAccountCommand>();
+			services.AddSingleton<IGenerateTokenCommand, GenerateTokenCommand>();
 		}
 
 		void RegisterQueries(IServiceCollection services)
