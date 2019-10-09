@@ -41,6 +41,8 @@ namespace ChauffeurApiCORE
 						cfg.SaveToken = true;
 						cfg.TokenValidationParameters = new TokenValidationParameters
 						{
+							ValidIssuer = ConfigurationManager.AppSettings["JwtIssuer"],
+							ValidAudience = ConfigurationManager.AppSettings["JwtIssuer"],
 							IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["JwtKey"])),
 							ClockSkew = TimeSpan.Zero
 						};
