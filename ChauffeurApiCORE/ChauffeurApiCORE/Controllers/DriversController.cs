@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ChauffeurApiCORE.Commands;
 using ChauffeurApiCORE.Models;
@@ -18,15 +19,19 @@ namespace ChauffeurApiCORE.Controllers
             this.createDriverCommand = createDriverCommand;
         }
 
-        public IQueryable<Driver> GetAllDrivers()
+        public IEnumerable<Driver> GetAllDrivers()
         {
-            return context.Dirvers.OrderByDescending(dr => dr.LastBookingDate);
+            return context.Dirvers.OrderByDescending(dr => dr.LastBookingDate).ToList();
         }
 
         [Route("ActiveInactive")]
-        public IQueryable<Driver> GetActiveInactiveDrivers([FromRoute] bool isActive)
+        public IEnumerable<Driver> GetActiveInactiveDrivers([FromQuery] bool isActive)
         {
-            return context.Dirvers.Where(d => d.IsActive == isActive).OrderByDescending(dr => dr.LastBookingDate);
+            return context
+					.Dirvers
+					.Where(d => d.IsActive == isActive)
+					.OrderByDescending(dr => dr.LastBookingDate)
+					.ToList();
         }
 
         [Route("Create")]

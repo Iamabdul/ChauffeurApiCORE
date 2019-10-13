@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ChauffeurApiCORE.Commands;
 using ChauffeurApiCORE.Models;
@@ -29,14 +30,18 @@ namespace ChauffeurApiCORE.Controllers
             this.createStopCommand = createStopCommand;
         }
 
-        public IQueryable<Booking> GetAllBookings()
+        public IEnumerable<Booking> GetAllBookings()
         {
-            return context.Bookings.OrderByDescending(b => b.StartDate);
+            return context.Bookings.OrderByDescending(b => b.StartDate).ToList();
         }
 
-        public IQueryable<Booking> GetActiveInactiveBookings([FromRoute] bool isActive)
+        public IEnumerable<Booking> GetActiveInactiveBookings([FromQuery] bool isActive)
         {
-            return context.Bookings.Where(d => (isActive == true ? d.CancelledDate == null : d.CancelledDate != null)).OrderByDescending(dr => dr.StartDate);
+            return context
+					.Bookings
+					.Where(d => isActive == true ? d.CancelledDate == null : d.CancelledDate != null)
+					.OrderByDescending(dr => dr.StartDate)
+					.ToList();
         }
 
         [Route("Create")]
