@@ -1,11 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace ChauffeurApiCORE.Models
+namespace ChauffeurApiCORE.Models.BindingModels
 {
-    // Models used as parameters to AccountController actions.
-
     public class AddExternalLoginBindingModel
     {
         [Required]
@@ -58,10 +55,10 @@ namespace ChauffeurApiCORE.Models
         public string PreferredName { get; set; }
         public string Address { get; set; }
         public string PostCode { get; set; }
-        public string ExtraInformation { get; set; }
-    }
+		public string ExtraInformation { get; set; }
+	}
 
-    public class RegisterExternalBindingModel
+	public class RegisterExternalBindingModel
     {
         [Required]
         [Display(Name = "Email")]

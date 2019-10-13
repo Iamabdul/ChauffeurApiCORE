@@ -2,12 +2,15 @@
 using System.Threading.Tasks;
 using ChauffeurApiCORE.Commands;
 using ChauffeurApiCORE.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChauffeurApiCORE.Controllers
 {
 	[Route("api/customers")]
 	[ApiController]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class CustomersController : ControllerBase
     {
         IChaufferDbContext context;
