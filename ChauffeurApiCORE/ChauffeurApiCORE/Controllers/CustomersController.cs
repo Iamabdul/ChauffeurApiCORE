@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ChauffeurApiCORE.Commands;
 using ChauffeurApiCORE.Models;
@@ -22,17 +23,17 @@ namespace ChauffeurApiCORE.Controllers
             this.createCustomerCommand = createCustomerCommand;
         }
 
-        public IQueryable<Customer> GetAllCustomers()
+        public IEnumerable<Customer> GetAllCustomers()
         {
-            return context.Customers.OrderByDescending(b => b.FirstName);
+            return context.Customers.OrderByDescending(b => b.FirstName).ToList();
         }
 
-		[Route("")]
-        public IQueryable<Customer> GetCustomers([FromRoute] string searchTerm)
+		[Route("search")]
+        public IEnumerable<Customer> GetCustomers([FromQuery] string searchTerm)
         {
             return context.Customers
                 .Where(c => c.FirstName.Contains(searchTerm) || c.LastName.Contains(searchTerm))
-                .OrderByDescending(c => c.FirstName);
+                .OrderByDescending(c => c.FirstName).ToList();
         }
 
         [Route("Create")]
